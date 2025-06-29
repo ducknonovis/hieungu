@@ -89,7 +89,7 @@ ddos trojan cái lồn mày hiếu ạ hsg tỉnh cũng chỉ là thằng trẻ 
 
 # Run Flask app in a separate thread
 def run_flask():
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=int(os.getenv('PORT', 5000)))
 
 # Bot event: on ready
 @bot.event
@@ -103,5 +103,9 @@ if __name__ == "__main__":
     flask_thread.daemon = True
     flask_thread.start()
     
-    # Start Discord bot (replace 'YOUR_BOT_TOKEN' with your actual bot token)
-    bot.run(MTM4ODc1ODc1NzkyMzYxODg4OA.GVmDOD.ZVLrtX8laXUVSZI1-X8YrsEbzYl87LhJYxrwHw)
+    # Start Discord bot using environment variable
+    token = os.getenv('DISCORD_TOKEN')
+    if not token:
+        print("Error: DISCORD_TOKEN environment variable not set.")
+        exit(1)
+    bot.run(token)
